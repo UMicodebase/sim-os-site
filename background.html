@@ -340,12 +340,19 @@
   </main>
 
   <script>
+    const storageKey = "simosSiteBackground";
+    const savedColor = localStorage.getItem(storageKey);
+    if (savedColor) {
+      document.body.style.backgroundColor = savedColor;
+    }
+
     const cards = document.querySelectorAll(".color-card");
     cards.forEach((card) => {
       const btn = card.querySelector(".apply-btn");
       btn.addEventListener("click", () => {
         const color = card.dataset.color;
         document.body.style.backgroundColor = color;
+        localStorage.setItem(storageKey, color);
       });
     });
   </script>

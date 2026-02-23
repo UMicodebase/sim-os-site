@@ -213,5 +213,13 @@
     </div>
     <a class="cta-btn" href="./page2.html">Відкрити презентацію</a>
   </main>
+
+  <script>
+    const storageKey = "simosSiteBackground";
+    const savedColor = localStorage.getItem(storageKey);
+    if (savedColor) {
+      document.body.style.backgroundColor = savedColor;
+    }
+  </script>
 </body>
 </html>

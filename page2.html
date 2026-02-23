@@ -237,5 +237,13 @@
       </ul>
     </section>
   </main>
+
+  <script>
+    const storageKey = "simosSiteBackground";
+    const savedColor = localStorage.getItem(storageKey);
+    if (savedColor) {
+      document.body.style.backgroundColor = savedColor;
+    }
+  </script>
 </body>
 </html>

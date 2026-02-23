@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIM-OS</title>
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
+
     :root {
       --bg: #ececec;
       --title: #1ea34a;
@@ -13,6 +15,8 @@
       --nav: #0f172a;
       --link: #e2e8f0;
       --shadow: rgba(0, 0, 0, 0.12);
+      --font-display: "Orbitron", "Segoe UI", sans-serif;
+      --font-code: "JetBrains Mono", "Consolas", "Menlo", monospace;
     }
 
     * { box-sizing: border-box; }
@@ -20,7 +24,7 @@
     body {
       margin: 0;
       background: var(--bg);
-      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-family: var(--font-code);
       color: var(--text);
     }
 
@@ -49,6 +53,7 @@
       font-size: 24px;
       font-weight: 900;
       letter-spacing: 0.06em;
+      font-family: var(--font-display);
     }
 
     .menu-btn {
@@ -84,6 +89,7 @@
       font-weight: 700;
       padding: 8px 10px;
       border-radius: 8px;
+      font-family: var(--font-code);
     }
 
     .menu-link[aria-current="page"] {
@@ -116,6 +122,7 @@
       font-weight: 900;
       text-transform: uppercase;
       text-shadow: 0 4px 16px var(--shadow);
+      font-family: var(--font-display);
     }
 
     .logo-frame {

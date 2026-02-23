@@ -66,11 +66,13 @@
     .option-btn.correct { background: #dcfce7; border-color: #16a34a; }
     .option-btn.wrong { background: #fee2e2; border-color: #ef4444; }
 
-    .actions { display: block; }
+    .actions { display: grid; gap: 10px; }
     .next-btn, .restart-btn { border: 0; border-radius: 10px; padding: 11px 14px; font-size: 14px; font-weight: 700; font-family: var(--font-code); cursor: pointer; color: #fff; background: #1b4fd9; }
     .next-btn { width: 100%; font-size: clamp(18px, 2.3vw, 24px); padding: 15px 16px; border-radius: 12px; }
     .next-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .restart-btn { background: #0f766e; font-size: 13px; padding: 9px 12px; }
+    .share-btn { border: 0; border-radius: 12px; padding: 13px 14px; font-size: 16px; font-weight: 700; font-family: var(--font-code); cursor: pointer; color: #fff; background: #7c3aed; }
+    .share-btn:hover { opacity: 0.92; }
 
     .feedback { margin: 0; min-height: 22px; font-size: 14px; font-weight: 700; }
     .feedback.ok { color: var(--ok); }
@@ -122,7 +124,10 @@
       <p class="question-text" id="question-text"></p>
       <div class="options" id="options"></div>
       <p class="feedback" id="feedback"></p>
-      <div class="actions"><button class="next-btn" id="next-btn" type="button" disabled>Далі</button></div>
+      <div class="actions">
+        <button class="next-btn" id="next-btn" type="button" disabled>Далі</button>
+        <button class="share-btn" id="share-btn" type="button" hidden>Поділитися результатом</button>
+      </div>
     </section>
   </main>
 
@@ -191,6 +196,7 @@
     const feedbackEl = document.getElementById("feedback");
     const nextBtn = document.getElementById("next-btn");
     const restartBtn = document.getElementById("restart-btn");
+    const shareBtn = document.getElementById("share-btn");
 
     let index = 0;
     let score = 0;
@@ -231,6 +237,7 @@
       feedbackEl.textContent = "";
       feedbackEl.className = "feedback";
       nextBtn.disabled = true;
+      shareBtn.hidden = true;
       locked = false;
 
       item.options.forEach((opt, i) => {
@@ -284,9 +291,44 @@
       feedbackEl.textContent = "Натисніть \"Новий випадковий раунд\" для нової спроби.";
       feedbackEl.className = "feedback ok";
       nextBtn.disabled = true;
+      shareBtn.hidden = false;
       progressEl.textContent = `Питання: ${total}/${total}`;
       currentEl.textContent = `Поточний раунд: ${score}`;
       bestEl.textContent = `Найкращий: ${finalBest}`;
+    }
+
+    function buildShareText() {
+      const total = questions.length || roundSize;
+      const quizTitle = document.querySelector("h1")?.textContent || "Quize SIM-OS";
+      return `Я пройшов(ла) "${quizTitle}" на SIM-OS. Мій результат: ${score}/${total}.`;
+    }
+
+    async function shareResult() {
+      const text = buildShareText();
+      const shareData = { title: "SIM-OS Quize", text, url: window.location.href };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch (_) {
+          return;
+        }
+      }
+
+      const fallbackText = `${text} ${window.location.href}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(fallbackText);
+          feedbackEl.textContent = "Результат скопійовано в буфер обміну.";
+          feedbackEl.className = "feedback ok";
+          return;
+        } catch (_) {
+          // fallback below
+        }
+      }
+
+      window.prompt("Скопіюйте результат:", fallbackText);
     }
 
     nextBtn.addEventListener("click", () => {
@@ -298,6 +340,7 @@
       }
     });
 
+    shareBtn.addEventListener("click", shareResult);
     restartBtn.addEventListener("click", startNewRound);
     startNewRound();
   </script>

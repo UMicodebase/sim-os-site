@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вибрати фон | SIM-OS</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
+
+    :root {
+      --bg: #ececec;
+      --text: #101828;
+      --surface: #ffffff;
+      --nav: #1f3bff;
+      --link: #e2e8f0;
+      --shadow: rgba(15, 23, 42, 0.16);
+      --font-display: "Orbitron", "Segoe UI", sans-serif;
+      --font-code: "JetBrains Mono", "Consolas", "Menlo", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-code);
+      transition: background-color 0.25s ease;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--nav);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+    }
+
+    .nav-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+    }
+
+    .brand {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      font-family: var(--font-display);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 10px;
+      background: transparent;
+      color: #fff;
+      width: 44px;
+      height: 40px;
+      padding: 0;
+      cursor: pointer;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-list {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .menu-link {
+      color: var(--link);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-family: var(--font-code);
+    }
+
+    .menu-link[aria-current="page"] {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+
+    .menu-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    #menu-toggle { display: none; }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 18px 42px;
+      display: grid;
+      justify-items: center;
+    }
+
+    .title {
+      margin: 0 0 20px;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 6vw, 58px);
+      letter-spacing: 0.02em;
+      color: #0f5f3f;
+      text-align: center;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 920px;
+    }
+
+    .color-card {
+      background: color-mix(in srgb, var(--surface) 92%, #e2e8f0 8%);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 14px;
+      box-shadow: 0 8px 18px var(--shadow);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 260px 1fr 160px;
+      align-items: center;
+      gap: 14px;
+      min-height: 100px;
+    }
+
+    .swatch {
+      width: 100%;
+      height: 64px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .details {
+      display: grid;
+      gap: 4px;
+    }
+
+    .meta {
+      font-size: 13px;
+      opacity: 0.82;
+      margin: 0;
+    }
+
+    .name {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .apply-btn {
+      border: 0;
+      border-radius: 10px;
+      background: #1b4fd9;
+      color: #fff;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-code);
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .apply-btn:hover { opacity: 0.92; }
+
+    .default-wrap {
+      margin-top: 26px;
+      max-width: 920px;
+    }
+
+    .default-title {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 0.02em;
+    }
+
+    .default-card {
+      background: #fff;
+    }
+
+    @media (max-width: 760px) {
+      .menu-btn { display: inline-flex; }
+
+      .menu-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        padding: 12px 16px 16px;
+        background: var(--nav);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .menu-link { display: block; }
+
+      #menu-toggle:checked + .menu-btn + .menu-list {
+        display: flex;
+      }
+
+      .color-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-wrap" aria-label="Головне меню">
+      <a class="brand" href="./index.html">SIM-OS</a>
+      <input id="menu-toggle" type="checkbox" aria-hidden="true">
+      <label class="menu-btn" for="menu-toggle" aria-label="Відкрити меню">⋯</label>
+      <ul class="menu-list">
+        <li><a class="menu-link" href="./index.html">Головна</a></li>
+        <li><a class="menu-link" href="./page2.html">Презентація</a></li>
+        <li><a class="menu-link" href="./background.html" aria-current="page">Вибрати фон</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="title">Змінити фон сайту</h1>
+
+    <section class="color-grid" aria-label="Палітра фону">
+      <article class="color-card" data-color="#0A2463">
+        <div class="swatch" style="background:#0A2463"></div>
+        <div class="details">
+          <p class="name">Глибокий синій</p>
+          <p class="meta">№01 · #0A2463</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#1B998B">
+        <div class="swatch" style="background:#1B998B"></div>
+        <div class="details">
+          <p class="name">Бірюзовий сигнал</p>
+          <p class="meta">№02 · #1B998B</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#2E294E">
+        <div class="swatch" style="background:#2E294E"></div>
+        <div class="details">
+          <p class="name">Фіолетовий core</p>
+          <p class="meta">№03 · #2E294E</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#F46036">
+        <div class="swatch" style="background:#F46036"></div>
+        <div class="details">
+          <p class="name">Помаранчевий імпульс</p>
+          <p class="meta">№04 · #F46036</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#D7263D">
+        <div class="swatch" style="background:#D7263D"></div>
+        <div class="details">
+          <p class="name">Червоний тригер</p>
+          <p class="meta">№05 · #D7263D</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#3BCEAC">
+        <div class="swatch" style="background:#3BCEAC"></div>
+        <div class="details">
+          <p class="name">Неоновий м'ятний</p>
+          <p class="meta">№06 · #3BCEAC</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#FFBC42">
+        <div class="swatch" style="background:#FFBC42"></div>
+        <div class="details">
+          <p class="name">Жовтий beacon</p>
+          <p class="meta">№07 · #FFBC42</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#1A535C">
+        <div class="swatch" style="background:#1A535C"></div>
+        <div class="details">
+          <p class="name">Темний ціан</p>
+          <p class="meta">№08 · #1A535C</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#7B2CBF">
+        <div class="swatch" style="background:#7B2CBF"></div>
+        <div class="details">
+          <p class="name">Електро-фіолет</p>
+          <p class="meta">№09 · #7B2CBF</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+      <article class="color-card" data-color="#2B9348">
+        <div class="swatch" style="background:#2B9348"></div>
+        <div class="details">
+          <p class="name">Зелений runtime</p>
+          <p class="meta">№10 · #2B9348</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+    </section>
+
+    <section class="default-wrap" aria-label="Дефолтний фон">
+      <h2 class="default-title">Дефолтний фон</h2>
+      <article class="color-card default-card" data-color="#FFFFFF">
+        <div class="swatch" style="background:#FFFFFF"></div>
+        <div class="details">
+          <p class="name">Білий (за замовчуванням)</p>
+          <p class="meta">№00 · #FFFFFF</p>
+        </div>
+        <button class="apply-btn" type="button">Застосувати</button>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const cards = document.querySelectorAll(".color-card");
+    cards.forEach((card) => {
+      const btn = card.querySelector(".apply-btn");
+      btn.addEventListener("click", () => {
+        const color = card.dataset.color;
+        document.body.style.backgroundColor = color;
+      });
+    });
+  </script>
+</body>
+</html>

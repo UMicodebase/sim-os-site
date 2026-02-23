@@ -103,7 +103,7 @@
     }
 
     .hero {
-      min-height: calc(100vh - 70px);
+      min-height: calc(100vh - 90px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -160,6 +160,153 @@
       z-index: 2;
     }
 
+    .actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .share-btn {
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: #0f766e;
+      color: #fff;
+      font-family: var(--font-code);
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .share-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.94;
+    }
+
+    .qr-section {
+      width: min(900px, 94vw);
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+      padding: 22px;
+      text-align: center;
+      display: grid;
+      gap: 10px;
+    }
+
+    .qr-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(24px, 4vw, 38px);
+      color: #0f5f3f;
+    }
+
+    .qr-sub {
+      margin: 0;
+      font-size: 15px;
+      opacity: 0.86;
+    }
+
+    .qr-code {
+      width: min(360px, 80vw);
+      height: auto;
+      margin: 2px auto 0;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      padding: 10px;
+    }
+
+    .site-short-link {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .site-short-link a {
+      color: #0f3edb;
+      text-decoration: none;
+    }
+
+    .share-status {
+      min-height: 20px;
+      margin: 0;
+      font-size: 13px;
+      color: #0f766e;
+    }
+
+    .home-sections {
+      width: min(1120px, 94vw);
+      display: grid;
+      gap: 14px;
+      margin: 8px auto 36px;
+      padding: 0 12px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      border-radius: 14px;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.09);
+      padding: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 24px;
+      font-family: var(--font-display);
+      color: #0f172a;
+    }
+
+    .panel p, .panel li {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .panel ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .road-item {
+      border-radius: 12px;
+      background: linear-gradient(165deg, #f8fafc, #eef2ff);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .road-item b {
+      font-size: 13px;
+      color: #0f172a;
+    }
+
+    .road-item span {
+      font-size: 13px;
+      color: #334155;
+    }
+
     .cta-btn:hover {
       transform: translateY(-2px);
       opacity: 0.94;
@@ -188,6 +335,14 @@
 
       #menu-toggle:checked + .menu-btn + .menu-list {
         display: flex;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .roadmap {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -220,8 +375,58 @@
     <div class="logo-frame">
       <img class="logo" src="./logo.png" alt="SIM-OS logo PNG">
     </div>
-    <a class="cta-btn" href="./page2.html">Відкрити презентацію</a>
+    <div class="actions-row">
+      <a class="cta-btn" href="./page2.html">Відкрити презентацію</a>
+      <button id="share-btn" class="share-btn" type="button">Поділитися сайтом</button>
+    </div>
+
+    <section class="qr-section">
+      <h2 class="qr-title">Скануй і відкривай сайт</h2>
+      <p class="qr-sub">Покажіть друзям QR-код або введіть коротке посилання вручну.</p>
+      <img
+        class="qr-code"
+        src="https://api.qrserver.com/v1/create-qr-code/?size=520x520&data=https%3A%2F%2Fsurl.li%2Fzyvlad"
+        alt="QR код на сайт SIM-OS"
+      >
+      <p class="site-short-link">Коротке посилання: <a href="https://surl.li/zyvlad" target="_blank" rel="noopener noreferrer">https://surl.li/zyvlad</a></p>
+      <p id="share-status" class="share-status"></p>
+    </section>
   </main>
+
+  <section class="home-sections">
+    <div class="info-grid">
+      <article class="panel">
+        <h2>Про Проєкт</h2>
+        <p>SIM-OS створює учень 3-А класу ліцею Ерудит. Мета проєкту: власний навчальний сайт із презентаціями, інтерактивними квізами та практикою цифрових навичок.</p>
+      </article>
+      <article class="panel">
+        <h2>Що Вже Є</h2>
+        <ul>
+          <li>Презентація з вбудованим PDF</li>
+          <li>Сторінка зміни фону сайту</li>
+          <li>Квізи: Географія, ЯПС, Математика, Інформатика</li>
+          <li>Збереження прогресу та кращих результатів</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h2>Навіщо Це</h2>
+        <ul>
+          <li>Розвиток логіки і мислення</li>
+          <li>Практика роботи з комп'ютером</li>
+          <li>Тренування пам'яті через гру</li>
+          <li>Мотивація до самостійного навчання</li>
+        </ul>
+      </article>
+    </div>
+    <article class="panel">
+      <h2>Наступні Кроки</h2>
+      <div class="roadmap">
+        <div class="road-item"><b>Крок 1</b><span>Додати нові предмети та рівні складності у квізах.</span></div>
+        <div class="road-item"><b>Крок 2</b><span>Зробити таблицю рекордів для класу з фільтром по темах.</span></div>
+        <div class="road-item"><b>Крок 3</b><span>Підготувати міні-кабінет автора з щотижневими оновленнями.</span></div>
+      </div>
+    </article>
+  </section>
 
   <script>
     const storageKey = "simosSiteBackground";
@@ -229,6 +434,29 @@
     if (savedColor) {
       document.body.style.backgroundColor = savedColor;
     }
+
+    const shortUrl = "https://surl.li/zyvlad";
+    const shareBtn = document.getElementById("share-btn");
+    const shareStatus = document.getElementById("share-status");
+
+    shareBtn.addEventListener("click", async () => {
+      try {
+        if (navigator.share) {
+          await navigator.share({
+            title: "SIM-OS",
+            text: "Сайт навчального проєкту SIM-OS",
+            url: shortUrl
+          });
+          shareStatus.textContent = "Посилання успішно надіслано.";
+          return;
+        }
+
+        await navigator.clipboard.writeText(shortUrl);
+        shareStatus.textContent = "Посилання скопійовано в буфер обміну.";
+      } catch (error) {
+        shareStatus.textContent = "Не вдалося поділитися автоматично. Використайте коротке посилання вище.";
+      }
+    });
   </script>
 </body>
 </html>

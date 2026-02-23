@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Презентація | SIM-OS</title>
+  <title>Презентація SIM-OS by Fedir Urvantsov | SIM-OS</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
 
@@ -157,19 +157,6 @@
       text-decoration: none;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .grid img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      background: #111;
-    }
-
     ul {
       margin: 0;
       padding-left: 20px;
@@ -199,10 +186,6 @@
         display: flex;
       }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
       .pdf-frame {
         height: 62vh;
       }
@@ -224,36 +207,25 @@
 
   <main class="container">
     <section class="card">
-      <h1>Сторінка номер 2</h1>
-      <p class="lead">Презентація по платі Raspberry Pi Pico H.</p>
+      <h1>Презентація SIM-OS by Fedir Urvantsov</h1>
+      <p class="lead">На сторінці вбудовано файл <strong>SIM-OS.pdf</strong>.</p>
     </section>
 
     <section class="card">
-      <iframe class="pdf-frame" src="./presentation.pdf#toolbar=1&view=FitH" title="PDF презентація"></iframe>
+      <iframe class="pdf-frame" src="./SIM-OS.pdf#toolbar=1&view=FitH" title="PDF презентація SIM-OS"></iframe>
       <p class="pdf-help">
-        Якщо PDF не відкрився, завантажте файл: <a href="./presentation.pdf">presentation.pdf</a>.
+        Якщо PDF не відкрився, завантажте файл: <a href="./SIM-OS.pdf">SIM-OS.pdf</a>.
       </p>
     </section>
 
     <section class="card">
-      <h2>Інформація з презентації</h2>
+      <h2>Аналіз файлу SIM-OS.pdf</h2>
       <ul>
-        <li>Назва: Raspberry pi pico H</li>
-        <li>Опис: мікро комп’ютер</li>
-        <li>Розділ: розпіновка</li>
-        <li>Розділ: CODE</li>
+        <li>Титульний слайд оформлений у мінімалістичному tech-стилі.</li>
+        <li>У центрі розміщено зелений напис <strong>SIM-OS</strong>.</li>
+        <li>Є декоративна геометрична рамка в синьо-бірюзово-золотих тонах.</li>
+        <li>Композиція чиста: акцент на бренді без зайвого тексту.</li>
       </ul>
-    </section>
-
-    <section class="grid">
-      <article class="card">
-        <h2>Плата</h2>
-        <img src="./assets/pico-board.png" alt="Raspberry Pi Pico H board">
-      </article>
-      <article class="card">
-        <h2>Розпіновка</h2>
-        <img src="./assets/pico-pinout.png" alt="Raspberry Pi Pico H pinout">
-      </article>
     </section>
   </main>
 </body>

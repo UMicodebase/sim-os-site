@@ -143,6 +143,24 @@
       display: block;
     }
 
+    .cta-btn {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: #1b4fd9;
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--font-code);
+      font-weight: 700;
+      font-size: 16px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.94;
+    }
+
     #menu-toggle { display: none; }
 
     @media (max-width: 760px) {
@@ -188,6 +206,7 @@
     <div class="logo-frame">
       <img class="logo" src="./logo.png" alt="SIM-OS logo PNG">
     </div>
+    <a class="cta-btn" href="./page2.html">Відкрити презентацію</a>
   </main>
 </body>
 </html>

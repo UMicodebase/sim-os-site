@@ -6,36 +6,266 @@
   <title>Quize ЯПС | SIM-OS</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
+
     :root {
       --bg: #ececec;
       --text: #101828;
       --surface: #ffffff;
       --nav: #0f172a;
       --link: #e2e8f0;
+      --shadow: rgba(0, 0, 0, 0.14);
       --font-display: "Orbitron", "Segoe UI", sans-serif;
       --font-code: "JetBrains Mono", "Consolas", "Menlo", monospace;
+      --ok: #15803d;
+      --wrong: #dc2626;
     }
+
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-code); }
-    .site-header { position: sticky; top: 0; z-index: 20; background: var(--nav); box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22); }
-    .nav-wrap { max-width: 1180px; margin: 0 auto; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: relative; }
-    .brand { color: #fff; text-decoration: none; font-size: 24px; font-weight: 900; letter-spacing: 0.06em; font-family: var(--font-display); }
-    .menu-btn { display: none; border: 1px solid rgba(255, 255, 255, 0.26); border-radius: 10px; background: transparent; color: #fff; width: 44px; height: 40px; padding: 0; cursor: pointer; font-size: 28px; line-height: 1; font-weight: 900; align-items: center; justify-content: center; }
-    .menu-list { display: flex; align-items: center; gap: 16px; margin: 0; padding: 0; list-style: none; }
-    .menu-link { color: var(--link); text-decoration: none; font-size: 16px; font-weight: 700; padding: 8px 10px; border-radius: 8px; font-family: var(--font-code); }
-    .menu-link[aria-current="page"] { background: rgba(255, 255, 255, 0.14); color: #fff; }
-    .menu-link:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-code);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--nav);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+    }
+
+    .nav-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+    }
+
+    .brand {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      font-family: var(--font-display);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 10px;
+      background: transparent;
+      color: #fff;
+      width: 44px;
+      height: 40px;
+      padding: 0;
+      cursor: pointer;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-list {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .menu-link {
+      color: var(--link);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-family: var(--font-code);
+    }
+
+    .menu-link[aria-current="page"] {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+
+    .menu-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
     #menu-toggle { display: none; }
-    .container { max-width: 900px; margin: 0 auto; padding: 30px 18px 44px; }
-    .card { background: var(--surface); border-radius: 14px; padding: 20px; box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14); }
-    h1 { margin: 0 0 10px; font-family: var(--font-display); font-size: clamp(32px, 4.6vw, 48px); color: #0f5f3f; }
-    p { margin: 0; font-size: 16px; }
-    .back { display: inline-block; margin-top: 14px; background: #1b4fd9; color: #fff; text-decoration: none; border-radius: 10px; padding: 10px 14px; font-weight: 700; }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 30px 18px 44px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .top {
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 10px 22px var(--shadow);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4.6vw, 46px);
+      color: #0f5f3f;
+    }
+
+    .meta {
+      margin: 0;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      font-size: 13px;
+    }
+
+    .quiz-card {
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 10px 22px var(--shadow);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      display: grid;
+      gap: 14px;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: 24px;
+      font-family: var(--font-display);
+      letter-spacing: 0.02em;
+    }
+
+    .question-text {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      border-radius: 10px;
+      background: #fff;
+      color: #0f172a;
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-family: var(--font-code);
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s ease;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-1px);
+      background: #f8fafc;
+    }
+
+    .option-btn.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+    }
+
+    .option-btn.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .next-btn, .restart-btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-code);
+      cursor: pointer;
+      color: #fff;
+      background: #1b4fd9;
+    }
+
+    .next-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .restart-btn { background: #0f766e; }
+
+    .feedback {
+      margin: 0;
+      min-height: 22px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: var(--wrong); }
+
     @media (max-width: 760px) {
       .menu-btn { display: inline-flex; }
-      .menu-list { position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 16px 16px; background: var(--nav); border-top: 1px solid rgba(255, 255, 255, 0.12); }
+
+      .menu-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        padding: 12px 16px 16px;
+        background: var(--nav);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
       .menu-link { display: block; }
-      #menu-toggle:checked + .menu-btn + .menu-list { display: flex; }
+
+      #menu-toggle:checked + .menu-btn + .menu-list {
+        display: flex;
+      }
+
+      .board { grid-template-columns: 1fr; }
+      .question-text { font-size: 16px; }
     }
   </style>
   <link rel="stylesheet" href="./splash.css">
@@ -55,17 +285,202 @@
       </ul>
     </nav>
   </header>
+
   <main class="container">
-    <section class="card">
-      <h1>Quize: ЯПС</h1>
-      <p>Вікторина для цього розділу скоро буде додана.</p>
-      <a class="back" href="./quize.html">Назад до розділів</a>
+    <section class="top">
+      <h1>Quize: ЯПС (3 клас)</h1>
+      <p class="meta">Оберіть 1 правильну відповідь із 4 варіантів.</p>
+      <div class="board">
+        <div class="stat" id="stat-progress">Питання: 1/10</div>
+        <div class="stat" id="stat-current">Поточний раунд: 0</div>
+        <div class="stat" id="stat-best">Найкращий: 0</div>
+      </div>
+    </section>
+
+    <section class="quiz-card">
+      <p class="question-title" id="question-title">Питання 1</p>
+      <p class="question-text" id="question-text"></p>
+      <div class="options" id="options"></div>
+      <p class="feedback" id="feedback"></p>
+      <div class="actions">
+        <button class="next-btn" id="next-btn" type="button" disabled>Далі</button>
+        <button class="restart-btn" id="restart-btn" type="button">Почати спочатку</button>
+      </div>
     </section>
   </main>
+
   <script>
-    const storageKey = "simosSiteBackground";
-    const savedColor = localStorage.getItem(storageKey);
-    if (savedColor) document.body.style.backgroundColor = savedColor;
+    const bgKey = "simosSiteBackground";
+    const savedColor = localStorage.getItem(bgKey);
+    if (savedColor) {
+      document.body.style.backgroundColor = savedColor;
+    }
+
+    const questions = [
+      {
+        q: "Що потрібно зробити перед їжею?",
+        options: ["Помити руки", "Пострибати", "Подивитись мультфільм", "Відкрити вікно"],
+        answer: 0
+      },
+      {
+        q: "Яка пора року після весни?",
+        options: ["Осінь", "Літо", "Зима", "Березень"],
+        answer: 1
+      },
+      {
+        q: "Що НЕ можна робити на дорозі без дорослих?",
+        options: ["Переходити на зелене світло", "Гратися біля проїжджої частини", "Йти тротуаром", "Дивитись по сторонах"],
+        answer: 1
+      },
+      {
+        q: "Яка тварина зазвичай живе у лісі?",
+        options: ["Верблюд", "Кит", "Лисиця", "Пінгвін"],
+        answer: 2
+      },
+      {
+        q: "Що корисно для природи?",
+        options: ["Кидати сміття в річку", "Сортувати сміття", "Ламати гілки дерев", "Залишати вогнище"],
+        answer: 1
+      },
+      {
+        q: "Який номер телефону служби порятунку в Україні?",
+        options: ["103", "104", "101", "1120"],
+        answer: 2
+      },
+      {
+        q: "Що таке сім'я?",
+        options: ["Лише друзі", "Люди, які піклуються одне про одного", "Тільки сусіди", "Лише однокласники"],
+        answer: 1
+      },
+      {
+        q: "Яке правило безпеки правильне вдома?",
+        options: ["Вмикати газ без дозволу", "Гратися сірниками", "Не чіпати розетки мокрими руками", "Відчиняти двері незнайомцям"],
+        answer: 2
+      },
+      {
+        q: "Що потрібно робити з використаними батарейками?",
+        options: ["Викидати в річку", "Здавати у спеціальні пункти", "Ховати в землю", "Кидати у вогонь"],
+        answer: 1
+      },
+      {
+        q: "Який вчинок показує повагу до інших?",
+        options: ["Перебивати під час розмови", "Говорити "дякую" і "будь ласка"", "Штовхатись у черзі", "Сміятись з помилок"],
+        answer: 1
+      }
+    ];
+
+    const bestKey = "simosYapsBestScore";
+    const lastKey = "simosYapsLastScore";
+
+    const progressEl = document.getElementById("stat-progress");
+    const currentEl = document.getElementById("stat-current");
+    const bestEl = document.getElementById("stat-best");
+    const qTitleEl = document.getElementById("question-title");
+    const qTextEl = document.getElementById("question-text");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
+
+    let index = 0;
+    let score = 0;
+    let locked = false;
+
+    function getBestScore() {
+      return Number(localStorage.getItem(bestKey) || 0);
+    }
+
+    function renderStats() {
+      const best = getBestScore();
+      progressEl.textContent = `Питання: ${Math.min(index + 1, questions.length)}/${questions.length}`;
+      currentEl.textContent = `Поточний раунд: ${score}`;
+      bestEl.textContent = `Найкращий: ${best}`;
+    }
+
+    function renderQuestion() {
+      const item = questions[index];
+      qTitleEl.textContent = `Питання ${index + 1}`;
+      qTextEl.textContent = item.q;
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      feedbackEl.className = "feedback";
+      nextBtn.disabled = true;
+      locked = false;
+
+      item.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+        btn.addEventListener("click", () => selectOption(i));
+        optionsEl.appendChild(btn);
+      });
+
+      renderStats();
+    }
+
+    function selectOption(selectedIndex) {
+      if (locked) return;
+      locked = true;
+
+      const item = questions[index];
+      const buttons = [...optionsEl.querySelectorAll(".option-btn")];
+
+      buttons.forEach((btn, i) => {
+        if (i === item.answer) btn.classList.add("correct");
+        if (i === selectedIndex && selectedIndex !== item.answer) btn.classList.add("wrong");
+        btn.disabled = true;
+      });
+
+      if (selectedIndex === item.answer) {
+        score += 1;
+        feedbackEl.textContent = "Правильно! +1 бал";
+        feedbackEl.classList.add("ok");
+      } else {
+        feedbackEl.textContent = "Неправильно. Спробуйте наступне питання.";
+        feedbackEl.classList.add("bad");
+      }
+
+      renderStats();
+      nextBtn.disabled = false;
+    }
+
+    function finishQuiz() {
+      const best = getBestScore();
+      const total = questions.length;
+      localStorage.setItem(lastKey, String(score));
+      if (score > best) {
+        localStorage.setItem(bestKey, String(score));
+      }
+
+      const finalBest = Math.max(score, best);
+      qTitleEl.textContent = "Раунд завершено";
+      qTextEl.textContent = `Ваш результат: ${score} з ${total}. Найкращий: ${finalBest} з ${total}.`;
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "Натисніть \"Почати спочатку\" для нового раунду.";
+      feedbackEl.className = "feedback ok";
+      nextBtn.disabled = true;
+      progressEl.textContent = `Питання: ${total}/${total}`;
+      currentEl.textContent = `Поточний раунд: ${score}`;
+      bestEl.textContent = `Найкращий: ${finalBest}`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (index < questions.length - 1) {
+        index += 1;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      index = 0;
+      score = 0;
+      renderQuestion();
+    });
+
+    renderQuestion();
   </script>
 </body>
 </html>

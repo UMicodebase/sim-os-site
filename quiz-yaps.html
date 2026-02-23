@@ -141,6 +141,12 @@
       margin-top: 12px;
     }
 
+    .top-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
     .stat {
       background: #f8fafc;
       border-radius: 10px;
@@ -207,9 +213,7 @@
     }
 
     .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: block;
     }
 
     .next-btn, .restart-btn {
@@ -224,12 +228,23 @@
       background: #1b4fd9;
     }
 
+    .next-btn {
+      width: 100%;
+      font-size: clamp(18px, 2.3vw, 24px);
+      padding: 15px 16px;
+      border-radius: 12px;
+    }
+
     .next-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
 
-    .restart-btn { background: #0f766e; }
+    .restart-btn {
+      background: #0f766e;
+      font-size: 13px;
+      padding: 9px 12px;
+    }
 
     .feedback {
       margin: 0;
@@ -295,6 +310,9 @@
         <div class="stat" id="stat-current">Поточний раунд: 0</div>
         <div class="stat" id="stat-best">Найкращий: 0</div>
       </div>
+      <div class="top-actions">
+        <button class="restart-btn" id="restart-btn" type="button">Почати спочатку</button>
+      </div>
     </section>
 
     <section class="quiz-card">
@@ -304,7 +322,6 @@
       <p class="feedback" id="feedback"></p>
       <div class="actions">
         <button class="next-btn" id="next-btn" type="button" disabled>Далі</button>
-        <button class="restart-btn" id="restart-btn" type="button">Почати спочатку</button>
       </div>
     </section>
   </main>

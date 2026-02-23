@@ -6,15 +6,20 @@
   <title>Quize Математика | SIM-OS</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
+
     :root {
       --bg: #ececec;
       --text: #101828;
       --surface: #ffffff;
       --nav: #0f172a;
       --link: #e2e8f0;
+      --shadow: rgba(0, 0, 0, 0.14);
       --font-display: "Orbitron", "Segoe UI", sans-serif;
       --font-code: "JetBrains Mono", "Consolas", "Menlo", monospace;
+      --ok: #15803d;
+      --wrong: #dc2626;
     }
+
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-code); }
     .site-header { position: sticky; top: 0; z-index: 20; background: var(--nav); box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22); }
@@ -26,16 +31,41 @@
     .menu-link[aria-current="page"] { background: rgba(255, 255, 255, 0.14); color: #fff; }
     .menu-link:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
     #menu-toggle { display: none; }
-    .container { max-width: 900px; margin: 0 auto; padding: 30px 18px 44px; }
-    .card { background: var(--surface); border-radius: 14px; padding: 20px; box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14); }
-    h1 { margin: 0 0 10px; font-family: var(--font-display); font-size: clamp(32px, 4.6vw, 48px); color: #0f5f3f; }
-    p { margin: 0; font-size: 16px; }
-    .back { display: inline-block; margin-top: 14px; background: #1b4fd9; color: #fff; text-decoration: none; border-radius: 10px; padding: 10px 14px; font-weight: 700; }
+
+    .container { max-width: 980px; margin: 0 auto; padding: 30px 18px 44px; display: grid; gap: 14px; }
+    .top { background: var(--surface); border-radius: 14px; padding: 18px; box-shadow: 0 10px 22px var(--shadow); border: 1px solid rgba(15, 23, 42, 0.08); }
+    h1 { margin: 0 0 8px; font-family: var(--font-display); font-size: clamp(30px, 4.6vw, 46px); color: #0f5f3f; }
+    .meta { margin: 0; font-size: 14px; opacity: 0.85; }
+    .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+    .stat { background: #f8fafc; border-radius: 10px; padding: 10px; border: 1px solid rgba(15, 23, 42, 0.08); font-size: 13px; }
+    .top-actions { margin-top: 12px; display: flex; justify-content: flex-end; }
+
+    .quiz-card { background: var(--surface); border-radius: 14px; padding: 18px; box-shadow: 0 10px 22px var(--shadow); border: 1px solid rgba(15, 23, 42, 0.08); display: grid; gap: 14px; }
+    .question-title { margin: 0; font-size: 24px; font-family: var(--font-display); letter-spacing: 0.02em; }
+    .question-text { margin: 0; font-size: 18px; line-height: 1.35; }
+    .options { display: grid; gap: 10px; }
+    .option-btn { width: 100%; border: 1px solid rgba(15, 23, 42, 0.14); border-radius: 10px; background: #fff; color: #0f172a; text-align: left; padding: 12px 14px; font-size: 15px; font-family: var(--font-code); cursor: pointer; transition: transform 0.1s ease, background-color 0.2s ease; }
+    .option-btn:hover { transform: translateY(-1px); background: #f8fafc; }
+    .option-btn.correct { background: #dcfce7; border-color: #16a34a; }
+    .option-btn.wrong { background: #fee2e2; border-color: #ef4444; }
+
+    .actions { display: block; }
+    .next-btn, .restart-btn { border: 0; border-radius: 10px; padding: 11px 14px; font-size: 14px; font-weight: 700; font-family: var(--font-code); cursor: pointer; color: #fff; background: #1b4fd9; }
+    .next-btn { width: 100%; font-size: clamp(18px, 2.3vw, 24px); padding: 15px 16px; border-radius: 12px; }
+    .next-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .restart-btn { background: #0f766e; font-size: 13px; padding: 9px 12px; }
+
+    .feedback { margin: 0; min-height: 22px; font-size: 14px; font-weight: 700; }
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: var(--wrong); }
+
     @media (max-width: 760px) {
       .menu-btn { display: inline-flex; }
       .menu-list { position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 16px 16px; background: var(--nav); border-top: 1px solid rgba(255, 255, 255, 0.12); }
       .menu-link { display: block; }
       #menu-toggle:checked + .menu-btn + .menu-list { display: flex; }
+      .board { grid-template-columns: 1fr; }
+      .question-text { font-size: 16px; }
     }
   </style>
   <link rel="stylesheet" href="./splash.css">
@@ -55,17 +85,204 @@
       </ul>
     </nav>
   </header>
+
   <main class="container">
-    <section class="card">
-      <h1>Quize: Математика</h1>
-      <p>Вікторина для цього розділу скоро буде додана.</p>
-      <a class="back" href="./quize.html">Назад до розділів</a>
+    <section class="top">
+      <h1>Quize: Математика (3 клас)</h1>
+      <p class="meta">Випадкові 10 питань із банку 40. Оберіть 1 правильну відповідь із 4.</p>
+      <div class="board">
+        <div class="stat" id="stat-progress">Питання: 1/10</div>
+        <div class="stat" id="stat-current">Поточний раунд: 0</div>
+        <div class="stat" id="stat-best">Найкращий: 0</div>
+      </div>
+      <div class="top-actions">
+        <button class="restart-btn" id="restart-btn" type="button">Новий випадковий раунд</button>
+      </div>
+    </section>
+
+    <section class="quiz-card">
+      <p class="question-title" id="question-title">Питання 1</p>
+      <p class="question-text" id="question-text"></p>
+      <div class="options" id="options"></div>
+      <p class="feedback" id="feedback"></p>
+      <div class="actions"><button class="next-btn" id="next-btn" type="button" disabled>Далі</button></div>
     </section>
   </main>
+
   <script>
-    const storageKey = "simosSiteBackground";
-    const savedColor = localStorage.getItem(storageKey);
+    const bgKey = "simosSiteBackground";
+    const savedColor = localStorage.getItem(bgKey);
     if (savedColor) document.body.style.backgroundColor = savedColor;
+
+    const questionPool = [
+      { q: "Скільки буде 7 + 5?", options: ["10", "11", "12", "13"], answer: 2 },
+      { q: "Скільки буде 15 - 8?", options: ["6", "7", "8", "9"], answer: 1 },
+      { q: "Скільки буде 6 * 4?", options: ["20", "22", "24", "26"], answer: 2 },
+      { q: "Скільки буде 21 : 3?", options: ["6", "7", "8", "9"], answer: 1 },
+      { q: "Яке число більше: 39 чи 43?", options: ["39", "43", "Однакові", "Неможливо"], answer: 1 },
+      { q: "Яке число йде після 99?", options: ["98", "100", "101", "109"], answer: 1 },
+      { q: "Скільки десятків у числі 70?", options: ["5", "6", "7", "8"], answer: 2 },
+      { q: "Скільки одиниць у числі 34?", options: ["3", "4", "30", "34"], answer: 1 },
+      { q: "Що більше: 1 м чи 90 см?", options: ["1 м", "90 см", "Рівні", "Нема відповіді"], answer: 0 },
+      { q: "Скільки сантиметрів у 1 метрі?", options: ["10", "50", "100", "1000"], answer: 2 },
+
+      { q: "Скільки хвилин у 1 годині?", options: ["30", "45", "60", "100"], answer: 2 },
+      { q: "Котра година, якщо минуло пів години після 8:00?", options: ["8:15", "8:30", "9:00", "7:30"], answer: 1 },
+      { q: "Скільки днів у тижні?", options: ["5", "6", "7", "8"], answer: 2 },
+      { q: "Скільки місяців у році?", options: ["10", "11", "12", "13"], answer: 2 },
+      { q: "Скільки буде 9 + 9?", options: ["16", "17", "18", "19"], answer: 2 },
+      { q: "Скільки буде 14 + 7?", options: ["20", "21", "22", "23"], answer: 1 },
+      { q: "Скільки буде 30 - 12?", options: ["16", "17", "18", "19"], answer: 2 },
+      { q: "Скільки буде 45 - 20?", options: ["20", "25", "30", "35"], answer: 1 },
+      { q: "Скільки буде 5 * 6?", options: ["25", "30", "35", "40"], answer: 1 },
+      { q: "Скільки буде 8 * 3?", options: ["24", "21", "18", "27"], answer: 0 },
+
+      { q: "Скільки буде 36 : 6?", options: ["5", "6", "7", "8"], answer: 1 },
+      { q: "Скільки буде 27 : 9?", options: ["2", "3", "4", "5"], answer: 1 },
+      { q: "Яка фігура має 3 сторони?", options: ["Квадрат", "Коло", "Трикутник", "Прямокутник"], answer: 2 },
+      { q: "Скільки кутів у прямокутника?", options: ["2", "3", "4", "5"], answer: 2 },
+      { q: "Скільки сторін у квадрата?", options: ["3", "4", "5", "6"], answer: 1 },
+      { q: "Що довше: 2 м чи 150 см?", options: ["2 м", "150 см", "Рівні", "Не відомо"], answer: 0 },
+      { q: "У коробці 10 олівців, 3 забрали. Скільки лишилось?", options: ["6", "7", "8", "9"], answer: 1 },
+      { q: "Було 4 кошики по 5 яблук. Скільки яблук разом?", options: ["15", "20", "25", "30"], answer: 1 },
+      { q: "24 поділили порівну на 4 групи. Скільки в кожній?", options: ["5", "6", "7", "8"], answer: 1 },
+      { q: "Яке число парне?", options: ["13", "17", "20", "25"], answer: 2 },
+
+      { q: "Яке число непарне?", options: ["10", "18", "22", "15"], answer: 3 },
+      { q: "Що більше: 58 чи 56?", options: ["58", "56", "Однакові", "Нема відповіді"], answer: 0 },
+      { q: "Скільки буде 100 - 1?", options: ["98", "99", "100", "101"], answer: 1 },
+      { q: "Скільки гривень у 3 монетах по 5 грн?", options: ["10", "12", "15", "20"], answer: 2 },
+      { q: "Скільки потрібно додати до 27, щоб отримати 30?", options: ["2", "3", "4", "5"], answer: 1 },
+      { q: "Скільки буде 40 + 30?", options: ["60", "70", "80", "90"], answer: 1 },
+      { q: "Скільки буде 64 - 4?", options: ["50", "55", "60", "70"], answer: 2 },
+      { q: "Половина від 20 це:", options: ["5", "8", "10", "12"], answer: 2 },
+      { q: "Подвійне число 9 це:", options: ["16", "18", "19", "20"], answer: 1 },
+      { q: "Скільки буде 3 * 7?", options: ["18", "20", "21", "24"], answer: 2 }
+    ];
+
+    const bestKey = "simosMathBestScore";
+    const lastKey = "simosMathLastScore";
+    const roundSize = 10;
+    let questions = [];
+
+    const progressEl = document.getElementById("stat-progress");
+    const currentEl = document.getElementById("stat-current");
+    const bestEl = document.getElementById("stat-best");
+    const qTitleEl = document.getElementById("question-title");
+    const qTextEl = document.getElementById("question-text");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
+
+    let index = 0;
+    let score = 0;
+    let locked = false;
+
+    function getBestScore() {
+      return Number(localStorage.getItem(bestKey) || 0);
+    }
+
+    function pickRandomQuestions(pool, count) {
+      const copy = [...pool];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy.slice(0, count);
+    }
+
+    function startNewRound() {
+      questions = pickRandomQuestions(questionPool, roundSize);
+      index = 0;
+      score = 0;
+      renderQuestion();
+    }
+
+    function renderStats() {
+      const best = getBestScore();
+      progressEl.textContent = `Питання: ${Math.min(index + 1, questions.length)}/${questions.length}`;
+      currentEl.textContent = `Поточний раунд: ${score}`;
+      bestEl.textContent = `Найкращий: ${best}`;
+    }
+
+    function renderQuestion() {
+      const item = questions[index];
+      qTitleEl.textContent = `Питання ${index + 1}`;
+      qTextEl.textContent = item.q;
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      feedbackEl.className = "feedback";
+      nextBtn.disabled = true;
+      locked = false;
+
+      item.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+        btn.addEventListener("click", () => selectOption(i));
+        optionsEl.appendChild(btn);
+      });
+
+      renderStats();
+    }
+
+    function selectOption(selectedIndex) {
+      if (locked) return;
+      locked = true;
+
+      const item = questions[index];
+      const buttons = [...optionsEl.querySelectorAll(".option-btn")];
+
+      buttons.forEach((btn, i) => {
+        if (i === item.answer) btn.classList.add("correct");
+        if (i === selectedIndex && selectedIndex !== item.answer) btn.classList.add("wrong");
+        btn.disabled = true;
+      });
+
+      if (selectedIndex === item.answer) {
+        score += 1;
+        feedbackEl.textContent = "Правильно! +1 бал";
+        feedbackEl.classList.add("ok");
+      } else {
+        feedbackEl.textContent = "Неправильно. Спробуйте наступне питання.";
+        feedbackEl.classList.add("bad");
+      }
+
+      renderStats();
+      nextBtn.disabled = false;
+    }
+
+    function finishQuiz() {
+      const best = getBestScore();
+      const total = questions.length;
+      localStorage.setItem(lastKey, String(score));
+      if (score > best) localStorage.setItem(bestKey, String(score));
+
+      const finalBest = Math.max(score, best);
+      qTitleEl.textContent = "Раунд завершено";
+      qTextEl.textContent = `Ваш результат: ${score} з ${total}. Найкращий: ${finalBest} з ${total}.`;
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "Натисніть \"Новий випадковий раунд\" для нової спроби.";
+      feedbackEl.className = "feedback ok";
+      nextBtn.disabled = true;
+      progressEl.textContent = `Питання: ${total}/${total}`;
+      currentEl.textContent = `Поточний раунд: ${score}`;
+      bestEl.textContent = `Найкращий: ${finalBest}`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (index < questions.length - 1) {
+        index += 1;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    });
+
+    restartBtn.addEventListener("click", startNewRound);
+    startNewRound();
   </script>
 </body>
 </html>

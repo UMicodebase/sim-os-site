@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-labelledby="title desc">
+  <title id="title">SIM-OS Logo</title>
+  <desc id="desc">Gradient SM emblem with SIM-OS text</desc>
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10d4d7"/>
+      <stop offset="52%" stop-color="#5e2d93"/>
+      <stop offset="100%" stop-color="#ff9a1a"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#00c6d4"/>
+      <stop offset="100%" stop-color="#ff5b43"/>
+    </linearGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="none"/>
+
+  <g transform="translate(80,20)" filter="url(#soft)">
+    <path fill="url(#g1)" d="M278 30c74 0 140 17 179 48 23 19 37 44 37 73 0 40-30 70-75 84 54 16 91 49 91 93 0 34-21 63-54 84-44 29-111 46-188 46-154 0-278-68-278-151 0-50 45-93 116-120-48-20-78-52-78-90 0-67 99-117 250-117z"/>
+
+    <g stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity=".92">
+      <path d="M30 133h58l24-24h45"/>
+      <path d="M18 222h84l20-24h40"/>
+      <path d="M44 303h54l30-32h40"/>
+      <path d="M500 145h46"/>
+      <path d="M520 232h58"/>
+      <path d="M504 312h66"/>
+      <circle cx="16" cy="222" r="12" fill="#18ced8" stroke="none"/>
+      <circle cx="30" cy="133" r="12" fill="#18ced8" stroke="none"/>
+      <circle cx="44" cy="303" r="12" fill="#1bb1d2" stroke="none"/>
+      <circle cx="560" cy="145" r="12" fill="#c4476d" stroke="none"/>
+      <circle cx="578" cy="232" r="12" fill="#f37533" stroke="none"/>
+      <circle cx="570" cy="312" r="12" fill="#ff9a1a" stroke="none"/>
+    </g>
+
+    <text x="170" y="288" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="182" font-weight="900" fill="#ffffff" letter-spacing="2">SM</text>
+  </g>
+
+  <text x="400" y="472" text-anchor="middle" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="118" font-weight="500" fill="#2a266f" letter-spacing="6">SIM-OS</text>
+</svg>

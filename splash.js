@@ -139,10 +139,20 @@
     }, 4200);
   }
 
+  function runSimEasterEgg() {
+    showStarRain();
+    showToast("Пасхалка знайдена: SIM!");
+  }
+
+  function runPicoEasterEgg() {
+    showPicoBadge();
+    showToast("Пасхалка знайдена: PICO!");
+  }
+
   let typed = "";
   const secrets = [
-    { code: "sim", run: () => { showStarRain(); showToast("Пасхалка знайдена: SIM!"); } },
-    { code: "pico", run: () => { showPicoBadge(); showToast("Пасхалка знайдена: PICO!"); } }
+    { code: "sim", run: runSimEasterEgg },
+    { code: "pico", run: runPicoEasterEgg }
   ];
 
   document.addEventListener("keydown", (event) => {
@@ -158,4 +168,109 @@
       }
     });
   });
+
+  const interactiveSelector = [
+    "a",
+    "button",
+    "input",
+    "textarea",
+    "select",
+    "label",
+    "summary",
+    "[role='button']",
+    "[contenteditable='true']",
+    "iframe",
+    "embed",
+    "object"
+  ].join(",");
+
+  function isInteractiveTarget(target) {
+    if (!(target instanceof Element)) return false;
+    return Boolean(target.closest(interactiveSelector));
+  }
+
+  const longPressMs = 700;
+  const tapSeriesMs = 1400;
+  const moveThreshold = 12;
+  let trackingTouch = false;
+  let longPressTriggered = false;
+  let longPressTimer = null;
+  let tapCount = 0;
+  let tapTimer = null;
+  let startX = 0;
+  let startY = 0;
+
+  function clearLongPressTimer() {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      longPressTimer = null;
+    }
+  }
+
+  function resetTapSeries() {
+    tapCount = 0;
+    if (tapTimer) {
+      clearTimeout(tapTimer);
+      tapTimer = null;
+    }
+  }
+
+  document.addEventListener("touchstart", (event) => {
+    if (event.touches.length !== 1 || isInteractiveTarget(event.target)) {
+      trackingTouch = false;
+      clearLongPressTimer();
+      return;
+    }
+
+    const touch = event.touches[0];
+    trackingTouch = true;
+    longPressTriggered = false;
+    startX = touch.clientX;
+    startY = touch.clientY;
+    clearLongPressTimer();
+    longPressTimer = setTimeout(() => {
+      if (!trackingTouch) return;
+      longPressTriggered = true;
+      resetTapSeries();
+      runPicoEasterEgg();
+    }, longPressMs);
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (event) => {
+    if (!trackingTouch || event.touches.length !== 1) return;
+    const touch = event.touches[0];
+    if (Math.abs(touch.clientX - startX) > moveThreshold || Math.abs(touch.clientY - startY) > moveThreshold) {
+      clearLongPressTimer();
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchend", () => {
+    if (!trackingTouch) return;
+    trackingTouch = false;
+    clearLongPressTimer();
+
+    if (longPressTriggered) {
+      longPressTriggered = false;
+      return;
+    }
+
+    tapCount += 1;
+    if (tapCount >= 5) {
+      resetTapSeries();
+      runSimEasterEgg();
+      return;
+    }
+
+    if (tapTimer) clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => {
+      tapCount = 0;
+      tapTimer = null;
+    }, tapSeriesMs);
+  }, { passive: true });
+
+  document.addEventListener("touchcancel", () => {
+    trackingTouch = false;
+    longPressTriggered = false;
+    clearLongPressTimer();
+  }, { passive: true });
 })();

@@ -57,10 +57,15 @@
       border-radius: 10px;
       background: transparent;
       color: #fff;
-      padding: 8px 12px;
+      width: 44px;
+      height: 40px;
+      padding: 0;
       cursor: pointer;
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
     }
 
     .menu-list {
@@ -113,13 +118,22 @@
       text-shadow: 0 4px 16px var(--shadow);
     }
 
-    .logo {
+    .logo-frame {
       width: min(560px, 90vw);
-      height: auto;
-      display: block;
-      background: var(--surface);
-      border-radius: 14px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 12px;
       filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.14));
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 45%;
+      transform: scale(1.42);
+      transform-origin: center 45%;
+      display: block;
     }
 
     #menu-toggle { display: none; }
@@ -154,7 +168,7 @@
     <nav class="nav-wrap" aria-label="Головне меню">
       <a class="brand" href="./index.html">SIM-OS</a>
       <input id="menu-toggle" type="checkbox" aria-hidden="true">
-      <label class="menu-btn" for="menu-toggle" aria-label="Відкрити меню">Меню</label>
+      <label class="menu-btn" for="menu-toggle" aria-label="Відкрити меню">⋯</label>
       <ul class="menu-list">
         <li><a class="menu-link" href="./index.html" aria-current="page">Головна</a></li>
         <li><a class="menu-link" href="./page2.html">Презентація</a></li>
@@ -164,7 +178,9 @@
 
   <main class="hero">
     <h1>SIM-OS</h1>
-    <img class="logo" src="./logo.png" alt="SIM-OS logo PNG">
+    <div class="logo-frame">
+      <img class="logo" src="./logo.png" alt="SIM-OS logo PNG">
+    </div>
   </main>
 </body>
 </html>

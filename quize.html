@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Презентація SIM-OS | SIM-OS</title>
+  <title>Quize | SIM-OS</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
 
     :root {
       --bg: #ececec;
-      --text: #1f1f1f;
+      --text: #101828;
       --surface: #ffffff;
       --nav: #0f172a;
       --link: #e2e8f0;
-      --accent: #1b4fd9;
-      --shadow: rgba(0, 0, 0, 0.12);
+      --shadow: rgba(0, 0, 0, 0.14);
       --font-display: "Orbitron", "Segoe UI", sans-serif;
       --font-code: "JetBrains Mono", "Consolas", "Menlo", monospace;
     }
@@ -24,8 +23,8 @@
     body {
       margin: 0;
       background: var(--bg);
-      font-family: var(--font-code);
       color: var(--text);
+      font-family: var(--font-code);
     }
 
     .site-header {
@@ -37,7 +36,7 @@
     }
 
     .nav-wrap {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 14px 18px;
       display: flex;
@@ -107,68 +106,63 @@
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 28px 18px 40px;
-      display: grid;
-      gap: 24px;
-    }
-
-    .card {
-      background: var(--surface);
-      border-radius: 14px;
-      box-shadow: 0 8px 20px var(--shadow);
-      padding: 18px;
+      padding: 30px 18px 44px;
     }
 
     h1 {
-      margin: 0 0 12px;
-      font-size: clamp(32px, 5.5vw, 54px);
+      margin: 0 0 10px;
       font-family: var(--font-display);
-      letter-spacing: 0.03em;
-    }
-
-    .author {
-      margin: 0 0 12px;
-      font-size: clamp(16px, 2.2vw, 24px);
-      font-family: var(--font-code);
-      opacity: 0.86;
+      font-size: clamp(34px, 5vw, 56px);
+      color: #0f5f3f;
     }
 
     .lead {
-      margin: 0;
-      font-size: 20px;
-      color: #333;
-      font-family: var(--font-code);
-    }
-
-    h2 {
-      font-family: var(--font-display);
-      letter-spacing: 0.02em;
-    }
-
-    .pdf-frame {
-      width: 100%;
-      height: min(70vh, 820px);
-      border: 0;
-      border-radius: 10px;
-      background: #f3f4f6;
-    }
-
-    .pdf-help {
-      margin: 14px 0 0;
+      margin: 0 0 22px;
       font-size: 16px;
+      opacity: 0.82;
     }
 
-    .pdf-help a {
-      color: var(--accent);
-      font-weight: 700;
-      text-decoration: none;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    ul {
+    .card {
+      display: grid;
+      gap: 10px;
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 10px 22px var(--shadow);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .card h2 {
       margin: 0;
-      padding-left: 20px;
-      line-height: 1.5;
+      font-family: var(--font-display);
+      font-size: 24px;
     }
+
+    .card p {
+      margin: 0;
+      font-size: 14px;
+      opacity: 0.88;
+    }
+
+    .open-btn {
+      justify-self: start;
+      margin-top: 6px;
+      text-decoration: none;
+      background: #1b4fd9;
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .open-btn:hover { opacity: 0.92; }
 
     @media (max-width: 760px) {
       .menu-btn { display: inline-flex; }
@@ -193,9 +187,7 @@
         display: flex;
       }
 
-      .pdf-frame {
-        height: 62vh;
-      }
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -207,35 +199,41 @@
       <label class="menu-btn" for="menu-toggle" aria-label="Відкрити меню">⋯</label>
       <ul class="menu-list">
         <li><a class="menu-link" href="./index.html">Головна</a></li>
-        <li><a class="menu-link" href="./page2.html" aria-current="page">Презентація</a></li>
+        <li><a class="menu-link" href="./page2.html">Презентація</a></li>
         <li><a class="menu-link" href="./background.html">Вибрати фон</a></li>
-        <li><a class="menu-link" href="./quize.html">Quize</a></li>
+        <li><a class="menu-link" href="./quize.html" aria-current="page">Quize</a></li>
       </ul>
     </nav>
   </header>
 
   <main class="container">
-    <section class="card">
-      <h1>Презентація SIM-OS</h1>
-      <p class="author">by Fedir Urvantsov</p>
-      <p class="lead">На сторінці вбудовано файл <strong>SIM-OS.pdf</strong>.</p>
-    </section>
+    <h1>Quize</h1>
+    <p class="lead">Оберіть розділ вікторини.</p>
 
-    <section class="card">
-      <iframe class="pdf-frame" src="./SIM-OS.pdf#toolbar=1&view=FitH" title="PDF презентація SIM-OS"></iframe>
-      <p class="pdf-help">
-        Якщо PDF не відкрився, завантажте файл: <a href="./SIM-OS.pdf">SIM-OS.pdf</a>.
-      </p>
-    </section>
+    <section class="grid">
+      <article class="card">
+        <h2>Географія</h2>
+        <p>Країни Європи для 3 класу: столиці, моря, річки, гори та розташування.</p>
+        <a class="open-btn" href="./quiz-geography.html">Відкрити</a>
+      </article>
 
-    <section class="card">
-      <h2>Аналіз файлу SIM-OS.pdf</h2>
-      <ul>
-        <li>Титульний слайд оформлений у мінімалістичному tech-стилі.</li>
-        <li>У центрі розміщено зелений напис <strong>SIM-OS</strong>.</li>
-        <li>Є декоративна геометрична рамка в синьо-бірюзово-золотих тонах.</li>
-        <li>Композиція чиста: акцент на бренді без зайвого тексту.</li>
-      </ul>
+      <article class="card">
+        <h2>ЯПС</h2>
+        <p>Розділ під майбутню вікторину.</p>
+        <a class="open-btn" href="./quiz-yaps.html">Відкрити</a>
+      </article>
+
+      <article class="card">
+        <h2>Математика</h2>
+        <p>Розділ під майбутню вікторину.</p>
+        <a class="open-btn" href="./quiz-math.html">Відкрити</a>
+      </article>
+
+      <article class="card">
+        <h2>Coming soon</h2>
+        <p>Ще один розділ буде додано пізніше.</p>
+        <a class="open-btn" href="./quiz-coming-soon.html">Відкрити</a>
+      </article>
     </section>
   </main>
 

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quize Математика | SIM-OS</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;800;900&display=swap");
+    :root {
+      --bg: #ececec;
+      --text: #101828;
+      --surface: #ffffff;
+      --nav: #0f172a;
+      --link: #e2e8f0;
+      --font-display: "Orbitron", "Segoe UI", sans-serif;
+      --font-code: "JetBrains Mono", "Consolas", "Menlo", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-code); }
+    .site-header { position: sticky; top: 0; z-index: 20; background: var(--nav); box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22); }
+    .nav-wrap { max-width: 1180px; margin: 0 auto; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: relative; }
+    .brand { color: #fff; text-decoration: none; font-size: 24px; font-weight: 900; letter-spacing: 0.06em; font-family: var(--font-display); }
+    .menu-btn { display: none; border: 1px solid rgba(255, 255, 255, 0.26); border-radius: 10px; background: transparent; color: #fff; width: 44px; height: 40px; padding: 0; cursor: pointer; font-size: 28px; line-height: 1; font-weight: 900; align-items: center; justify-content: center; }
+    .menu-list { display: flex; align-items: center; gap: 16px; margin: 0; padding: 0; list-style: none; }
+    .menu-link { color: var(--link); text-decoration: none; font-size: 16px; font-weight: 700; padding: 8px 10px; border-radius: 8px; font-family: var(--font-code); }
+    .menu-link[aria-current="page"] { background: rgba(255, 255, 255, 0.14); color: #fff; }
+    .menu-link:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+    #menu-toggle { display: none; }
+    .container { max-width: 900px; margin: 0 auto; padding: 30px 18px 44px; }
+    .card { background: var(--surface); border-radius: 14px; padding: 20px; box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14); }
+    h1 { margin: 0 0 10px; font-family: var(--font-display); font-size: clamp(32px, 4.6vw, 48px); color: #0f5f3f; }
+    p { margin: 0; font-size: 16px; }
+    .back { display: inline-block; margin-top: 14px; background: #1b4fd9; color: #fff; text-decoration: none; border-radius: 10px; padding: 10px 14px; font-weight: 700; }
+    @media (max-width: 760px) {
+      .menu-btn { display: inline-flex; }
+      .menu-list { position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 16px 16px; background: var(--nav); border-top: 1px solid rgba(255, 255, 255, 0.12); }
+      .menu-link { display: block; }
+      #menu-toggle:checked + .menu-btn + .menu-list { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-wrap" aria-label="Головне меню">
+      <a class="brand" href="./index.html">SIM-OS</a>
+      <input id="menu-toggle" type="checkbox" aria-hidden="true">
+      <label class="menu-btn" for="menu-toggle" aria-label="Відкрити меню">⋯</label>
+      <ul class="menu-list">
+        <li><a class="menu-link" href="./index.html">Головна</a></li>
+        <li><a class="menu-link" href="./page2.html">Презентація</a></li>
+        <li><a class="menu-link" href="./background.html">Вибрати фон</a></li>
+        <li><a class="menu-link" href="./quize.html" aria-current="page">Quize</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h1>Quize: Математика</h1>
+      <p>Вікторина для цього розділу скоро буде додана.</p>
+      <a class="back" href="./quize.html">Назад до розділів</a>
+    </section>
+  </main>
+  <script>
+    const storageKey = "simosSiteBackground";
+    const savedColor = localStorage.getItem(storageKey);
+    if (savedColor) document.body.style.backgroundColor = savedColor;
+  </script>
+</body>
+</html>
